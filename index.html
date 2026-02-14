@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Para Mónica</title>
+  <meta name="theme-color" content="#ff77b7" />
+  <style>
+    :root{
+      --bg1:#f9d7e8;
+      --bg2:#fff0f7;
+      --pink:#ff4f9b;
+      --pink2:#ff88bf;
+      --deep:#3a0d25;
+      --card:#ffffffd9;
+      --shadow: 0 20px 60px rgba(58,13,37,.16);
+      --stroke: rgba(255,79,155,.22);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      color:var(--deep);
+      background: radial-gradient(1200px 800px at 20% 20%, #ffffff 0%, var(--bg2) 35%, var(--bg1) 100%);
+      overflow:hidden;
+    }
+
+    /* Subtle floating hearts background (no emoji) */
+    .hearts{ position:fixed; inset:0; pointer-events:none; overflow:hidden; opacity:.35; }
+    .heart{
+      position:absolute; width:16px; height:16px;
+      transform: rotate(45deg);
+      background: linear-gradient(135deg, var(--pink), var(--pink2));
+      border-radius: 4px;
+      animation: floatUp linear infinite;
+      filter: blur(.1px);
+    }
+    .heart:before,.heart:after{
+      content:""; position:absolute; width:16px; height:16px; background:inherit; border-radius:50%;
+    }
+    .heart:before{ left:-8px; top:0 }
+    .heart:after{ top:-8px; left:0 }
+    @keyframes floatUp{
+      from{ transform: translateY(110vh) rotate(45deg) scale(.95); }
+      to{ transform: translateY(-20vh) rotate(45deg) scale(1.15); }
+    }
+
+    .wrap{
+      height:100%;
+      display:grid;
+      place-items:center;
+      padding:18px;
+      position:relative;
+      z-index:2;
+    }
+    .card{
+      width:min(560px, 100%);
+      background:var(--card);
+      backdrop-filter: blur(10px);
+      border: 1.5px solid var(--stroke);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      padding:20px 18px 18px;
+      position:relative;
+    }
+    .top{
+      display:flex; align-items:center; justify-content:space-between;
+      margin-bottom:12px;
+      gap:12px;
+    }
+    .tag{
+      font-size:13px;
+      letter-spacing:.2px;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid var(--stroke);
+      background: rgba(255,79,155,.08);
+      font-weight:650;
+    }
+    .small{
+      font-size:13px;
+      opacity:.72;
+      user-select:none;
+    }
+
+    /* Envelope */
+    .envelope-area{ display:grid; place-items:center; padding:10px 0 6px; }
+    .envelope{
+      width:min(360px, 92%);
+      height:220px;
+      position:relative;
+      cursor:pointer;
+      transition: transform .15s ease;
+    }
+    .envelope:hover{ transform: translateY(-2px); }
+    .env-back{
+      position:absolute; inset:0;
+      background: linear-gradient(180deg, #ffffff, #ffe6f2);
+      border-radius: 18px;
+      border: 2px solid var(--stroke);
+      box-shadow: 0 14px 40px rgba(255,79,155,.16);
+    }
+    .env-front{ position:absolute; inset:0; border-radius:18px; overflow:hidden; }
+    .env-front:before{
+      content:""; position:absolute; inset:0;
+      background:
+        linear-gradient(135deg, rgba(255,79,155,.14), rgba(255,255,255,0)),
+        radial-gradient(600px 300px at 50% 110%, rgba(255,79,155,.12), rgba(255,255,255,0));
+    }
+    .env-flap{
+      position:absolute; left:0; right:0; top:0;
+      height:58%;
+      background: linear-gradient(180deg, #fff0f7, #ffd5e8);
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      border-top-left-radius:18px; border-top-right-radius:18px;
+      transform-origin: 50% 0%;
+      transition: transform .55s cubic-bezier(.2,.9,.2,1);
+      border-bottom:2px solid rgba(255,79,155,.18);
+    }
+    .env-pocket{
+      position:absolute; left:0; right:0; bottom:0;
+      height:60%;
+      background: linear-gradient(180deg, #ffffff, #ffe6f2);
+      clip-path: polygon(0 0, 100% 0, 50% 55%, 0 0, 0 100%, 100% 100%, 100% 0);
+      border-bottom-left-radius:18px; border-bottom-right-radius:18px;
+      border-top:2px solid rgba(255,79,155,.18);
+    }
+    .seal{
+      position:absolute; left:50%; top:52%;
+      transform: translate(-50%,-50%);
+      width:56px; height:56px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--pink), var(--pink2));
+      border:2px solid rgba(255,255,255,.8);
+      display:grid; place-items:center;
+      box-shadow: 0 18px 40px rgba(255,79,155,.22);
+      font-weight:800;
+      color:white;
+      letter-spacing:.5px;
+    }
+
+    /* Minimal kitty mark */
+    .kitty{
+      width:92px;height:72px;
+      margin: 0 auto;
+      position:relative;
+      opacity:.95;
+    }
+    .kitty .face{
+      position:absolute; inset:0;
+      background:#fff;
+      border:1.6px solid rgba(255,79,155,.18);
+      border-radius: 34px;
+      box-shadow: 0 10px 22px rgba(255,79,155,.10);
+    }
+    .kitty .ear{
+      position:absolute; width:26px;height:26px;
+      background:#fff;
+      border:1.6px solid rgba(255,79,155,.18);
+      top:-9px;
+      border-radius: 6px 18px 6px 18px;
+    }
+    .kitty .ear.left{ left:10px; transform: rotate(-14deg) }
+    .kitty .ear.right{ right:10px; transform: rotate(14deg) }
+    .kitty .eye{
+      position:absolute; width:8px;height:8px;
+      background:#2a0a1a; border-radius:50%; top:32px;
+    }
+    .kitty .eye.left{ left:28px }
+    .kitty .eye.right{ right:28px }
+    .kitty .nose{
+      position:absolute; width:10px;height:7px;
+      left:50%; top:41px; transform: translateX(-50%);
+      background: rgba(255,79,155,.85);
+      border-radius: 9px;
+    }
+
+    /* Letter */
+    .letter{
+      position:absolute;
+      left:50%; bottom:12px;
+      transform: translateX(-50%);
+      width:min(320px, 88%);
+      height:190px;
+      background:#fff;
+      border-radius:16px;
+      border:2px solid rgba(255,79,155,.14);
+      box-shadow: 0 14px 40px rgba(58,13,37,.10);
+      padding:14px 14px 12px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      transition: transform .65s cubic-bezier(.2,.9,.2,1), opacity .4s ease;
+      opacity:0;
+      transform: translateX(-50%) translateY(20px);
+    }
+    .opened .env-flap{ transform: rotateX(180deg) }
+    .opened .letter{ opacity:1; transform: translateX(-50%) translateY(-64px); }
+
+    .title{
+      text-align:center;
+      font-size:18px;
+      font-weight:800;
+      margin:4px 0 0;
+      letter-spacing:.2px;
+    }
+    .subtitle{
+      text-align:center;
+      margin:0;
+      font-size:13px;
+      opacity:.7;
+    }
+
+    /* Views */
+    .question, .final{ display:none; text-align:center; padding: 8px 6px 2px; }
+    .question.show, .final.show{ display:block; }
+
+    .bigq{
+      margin: 10px 0 12px;
+      font-size:24px;
+      font-weight:900;
+      letter-spacing:.15px;
+    }
+    .name{
+      display:inline-block;
+      padding:2px 10px;
+      border-radius:999px;
+      background: rgba(255,79,155,.08);
+      border: 1px solid var(--stroke);
+    }
+    .btnrow{
+      margin-top: 8px;
+      display:flex;
+      justify-content:center;
+      gap:12px;
+      flex-wrap:wrap;
+      position:relative;
+      min-height:54px;
+    }
+    button{
+      border:none;
+      padding: 14px 18px;
+      border-radius: 14px;
+      font-weight:800;
+      cursor:pointer;
+      font-size:16px;
+      transition: transform .12s ease, box-shadow .2s ease, background .2s ease;
+      user-select:none;
+      min-width: 140px;
+      letter-spacing:.2px;
+    }
+    .yes{
+      background: linear-gradient(135deg, var(--pink), var(--pink2));
+      color:white;
+      box-shadow: 0 14px 30px rgba(255,79,155,.22);
+    }
+    .yes:hover{ transform: translateY(-1px) }
+    .no{
+      background: rgba(255,255,255,.78);
+      color: var(--deep);
+      border: 2px solid rgba(255,79,155,.18);
+      box-shadow: 0 12px 24px rgba(58,13,37,.10);
+      position:relative;
+    }
+
+    .final h2{
+      margin: 10px 0 6px;
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing:.2px;
+    }
+    .final p{
+      margin: 0 auto 10px;
+      max-width: 50ch;
+      opacity:.85;
+      line-height:1.45;
+    }
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:10px 12px;
+      border-radius:999px;
+      background: rgba(255,79,155,.08);
+      border: 1px solid var(--stroke);
+      font-weight:800;
+    }
+
+    canvas#confetti{
+      position:fixed; inset:0;
+      pointer-events:none;
+      z-index:3;
+    }
+
+    @media (max-width:420px){
+      .bigq{ font-size:22px }
+      button{ min-width: 150px }
+    }
+  </style>
+</head>
+<body>
+  <div class="hearts" id="hearts"></div>
+  <canvas id="confetti"></canvas>
+
+  <div class="wrap">
+    <div class="card">
+      <div class="top">
+        <div class="tag">Mensaje</div>
+        <div class="small">Toca el sobre</div>
+      </div>
+
+      <div class="envelope-area">
+        <div class="envelope" id="envelope" role="button" aria-label="Abrir sobre">
+          <div class="env-back"></div>
+          <div class="env-front">
+            <div class="env-flap"></div>
+            <div class="env-pocket"></div>
+          </div>
+          <div class="seal">M</div>
+
+          <div class="letter" id="letter">
+            <div class="kitty" aria-hidden="true">
+              <div class="ear left"></div>
+              <div class="ear right"></div>
+              <div class="face"></div>
+              <div class="eye left"></div>
+              <div class="eye right"></div>
+              <div class="nose"></div>
+            </div>
+            <div class="title">Para <span class="name">Mónica</span></div>
+            <p class="subtitle">Abrir</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="question" id="question">
+        <div class="bigq"><span class="name">Mónica</span>, ¿quieres ser mi San Valentín?</div>
+        <div class="btnrow" id="btnrow">
+          <button class="yes" id="yesBtn">Sí</button>
+          <button class="no" id="noBtn">No</button>
+        </div>
+      </div>
+
+      <div class="final" id="final">
+        <div class="pill">Confirmado</div>
+        <h2>Perfecto.</h2>
+        <p>
+          Entonces hoy es plan contigo.
+          <br/>
+          Toca Itallianis <3
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Background hearts (subtle)
+    const hearts = document.getElementById('hearts');
+    const HEART_COUNT = 22;
+    for (let i = 0; i < HEART_COUNT; i++){
+      const h = document.createElement('div');
+      h.className = 'heart';
+      const size = 10 + Math.random()*18;
+      h.style.width = size + 'px';
+      h.style.height = size + 'px';
+      h.style.left = (Math.random()*100) + 'vw';
+      h.style.animationDuration = (9 + Math.random()*10) + 's';
+      h.style.animationDelay = (-Math.random()*12) + 's';
+      h.style.opacity = (0.10 + Math.random()*0.25).toFixed(2);
+      hearts.appendChild(h);
+    }
+
+    // Envelope open
+    const envelope = document.getElementById('envelope');
+    const letter = document.getElementById('letter');
+    const question = document.getElementById('question');
+
+    let opened = false;
+    function openEnvelope(){
+      if(opened) return;
+      opened = true;
+      envelope.classList.add('opened');
+      setTimeout(() => question.classList.add('show'), 650);
+    }
+    envelope.addEventListener('click', openEnvelope);
+    letter.addEventListener('click', openEnvelope);
+
+    // No button "escapes" (quietly)
+    const noBtn = document.getElementById('noBtn');
+    const btnrow = document.getElementById('btnrow');
+
+    function moveNoButton(){
+      const rowRect = btnrow.getBoundingClientRect();
+      const btnRect = noBtn.getBoundingClientRect();
+
+      const maxX = rowRect.width - btnRect.width;
+      const maxY = 46;
+
+      const x = Math.max(0, Math.random() * maxX);
+      const y = Math.max(0, (Math.random() * maxY) - 8);
+
+      noBtn.style.position = 'absolute';
+      noBtn.style.left = x + 'px';
+      noBtn.style.top  = y + 'px';
+    }
+    noBtn.addEventListener('mouseenter', moveNoButton);
+    noBtn.addEventListener('click', (e)=>{ e.preventDefault(); moveNoButton(); });
+
+    // Confetti (minimal)
+    const yesBtn = document.getElementById('yesBtn');
+    const final = document.getElementById('final');
+
+    const canvas = document.getElementById('confetti');
+    const ctx = canvas.getContext('2d');
+    let W, H, confetti = [], animId = null;
+
+    function resize(){
+      W = canvas.width  = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    function burstConfetti(){
+      confetti = [];
+      const pieces = 160;
+      for(let i=0;i<pieces;i++){
+        confetti.push({
+          x: W/2,
+          y: H/2 - 50,
+          s: 3 + Math.random()*4,
+          vx: (Math.random()*2-1) * (3 + Math.random()*6),
+          vy: (Math.random()*2-1) * (3 + Math.random()*6) - 2,
+          a: 1,
+          rot: Math.random()*Math.PI,
+          vr: (Math.random()*2-1) * 0.18
+        });
+      }
+      if(animId) cancelAnimationFrame(animId);
+      animateConfetti();
+    }
+
+    function animateConfetti(){
+      ctx.clearRect(0,0,W,H);
+      let alive = 0;
+      for(const p of confetti){
+        p.vy += 0.08;
+        p.x  += p.vx;
+        p.y  += p.vy;
+        p.rot += p.vr;
+        p.a  -= 0.007;
+
+        if(p.a > 0 && p.y < H + 30) alive++;
+
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, p.a);
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.fillStyle = (Math.random() < 0.5) ? '#ff4f9b' : '#ff88bf';
+        ctx.fillRect(-p.s, -p.s, p.s*2, p.s*2);
+        ctx.restore();
+      }
+      if(alive > 0){
+        animId = requestAnimationFrame(animateConfetti);
+      }else{
+        ctx.clearRect(0,0,W,H);
+      }
+    }
+
+    yesBtn.addEventListener('click', () => {
+      question.classList.remove('show');
+      final.classList.add('show');
+      burstConfetti();
+    });
+  </script>
+</body>
+</html>
+
